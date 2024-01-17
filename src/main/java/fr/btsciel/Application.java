@@ -4,6 +4,7 @@ import jssc.SerialPortEvent;
 import jssc.SerialPortException;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Application extends LiaisonSerie {
@@ -17,22 +18,26 @@ public class Application extends LiaisonSerie {
 
     public void serialEvent(SerialPortEvent spe) {
         super.serialEvent(spe);
-        StringBuilder sb1 = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
+        float celsius;
+        float kelvin;
         byte[] laTrame;
          int longueur = spe.getEventValue();
         laTrame = lireTrame(longueur);
-        for (byte b : laTrame) {
-            sb1.append((b & 0xff) + " ");
-            sb2.append(String.format("%02x", b));
-        }
+
+        celsius = decodageTrameCapteur(laTrame);
+        kelvin = decodageTrameCapteur(laTrame) ;
+
         System.out.println(String.format("""
             Réception
-            Format ASCII : %s
-            Format Hexa : %s
+            Format C°:
+            Format K:
             Format Chaîne de caractères : %s
             """));
     }
+
+    private float decodageTrameCapteur(byte[] laTrame) {
+    }
+
 
     public void initialisation(String portDeTravail) throws SerialPortException, InterruptedException {
         super.initCom(portDeTravail);
@@ -43,5 +48,15 @@ public class Application extends LiaisonSerie {
             System.out.println(new String(super.lireTrame(super.detecteSiReception())));
         }
     }
+
+    public void deconnexionCapteur(){
+        super.fermerPort();
+        System.out.println("Deconexion reussie: ");
+
+    }
+    public void ecrire(byte[] b)  {
+        super.ecrire(b);
+    }
+
 
 }

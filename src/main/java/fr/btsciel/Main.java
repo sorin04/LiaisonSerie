@@ -20,10 +20,11 @@ public class Main {
             app.ecrire("test Pirgari".getBytes(StandardCharsets.US_ASCII));
             app.ecrire("\r\n".getBytes());
             try {
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 throw  new RuntimeException(e);
             }
+
         }
 
         /*try {
